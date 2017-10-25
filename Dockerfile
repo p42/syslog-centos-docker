@@ -1,4 +1,4 @@
-FROM project42/s6-centos:centos7
+FROM project42/s6-centos:centos6
 MAINTAINER Jordan Clark jordan.clark@esu10.org
 
 RUN yum -y update && \
