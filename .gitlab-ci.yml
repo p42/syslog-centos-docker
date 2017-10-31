@@ -4,8 +4,8 @@ stages:
   - deploy
 
 variables:
-  IMAGE_NAME: "s6-centos"
-  GITHUB_PROJECT: "p42/s6-centos-docker.git"
+  IMAGE_NAME: "syslog-centos"
+  GITHUB_PROJECT: "p42/syslog-centos-docker.git"
 
 before_script:
   - docker info
