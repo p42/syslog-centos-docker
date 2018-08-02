@@ -1,5 +1,5 @@
 FROM project42/s6-centos:centos7
-MAINTAINER Jordan Clark jordan.clark@esu10.org
+MAINTAINER Jordan Clark mail@jordanclark.us
 
 RUN yum -y update && \
     yum -y install epel-release && \
