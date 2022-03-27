@@ -7,6 +7,8 @@ variables:
   IMAGE_NAME: "syslog-centos"
   IMAGE_TAG: "latest"
   GITHUB_PROJECT: "p42/syslog-centos-docker.git"
+  DOCKER_HUB_IMAGE: "project42/syslog-centos"
+  MASTER_IMAGE_TAG: "centos7"
 
 before_script:
   - docker info
@@ -81,3 +83,33 @@ deploy_tags_to_github:
     - git push git@github.com:${GITHUB_PROJECT} ${CI_COMMIT_REF_NAME} --tags
   only:
     - tags
+
+push_to_docker_hub-master:
+  tags:
+    - docker
+    - docker-hub
+    - docker-pushrm
+  stage: build
+  script:
+    - docker image tag ${IMAGE_NAME}:${CI_COMMIT_REF_NAME} ${DOCKER_HUB_IMAGE}:${CI_COMMIT_REF_NAME}
+    - docker push ${DOCKER_HUB_IMAGE}:latest
+    - docker push ${DOCKER_HUB_IMAGE}:${MASTER_IMAGE_TAG}
+    - git checkout ${CI_COMMIT_REF_NAME}
+    - docker pushrm ${DOCKER_HUB_IMAGE}:latest  
+    - docker pushrm ${DOCKER_HUB_IMAGE}:${MASTER_IMAGE_TAG}  
+  only:
+    - master
+
+push_to_docker_hub:
+  tags:
+    - docker
+    - docker-hub
+    - docker-pushrm
+  stage: build
+  script:
+    - docker image tag ${IMAGE_NAME}:${CI_COMMIT_REF_NAME} ${DOCKER_HUB_IMAGE}:${CI_COMMIT_REF_NAME}
+    - docker push ${DOCKER_HUB_IMAGE}:${CI_COMMIT_REF_NAME}
+    - git checkout ${CI_COMMIT_REF_NAME}
+    - docker pushrm ${DOCKER_HUB_IMAGE}:${CI_COMMIT_REF_NAME}  
+  except:
+    - master
