@@ -91,7 +91,8 @@ push_to_docker_hub-master:
     - docker-pushrm
   stage: build
   script:
-    - docker image tag ${IMAGE_NAME}:${CI_COMMIT_REF_NAME} ${DOCKER_HUB_IMAGE}:${CI_COMMIT_REF_NAME}
+    - docker image tag ${IMAGE_NAME}:latest ${DOCKER_HUB_IMAGE}:latest
+    - docker image tag ${IMAGE_NAME}:latest ${DOCKER_HUB_IMAGE}:${MASTER_IMAGE_TAG}
     - docker push ${DOCKER_HUB_IMAGE}:latest
     - docker push ${DOCKER_HUB_IMAGE}:${MASTER_IMAGE_TAG}
     - git checkout ${CI_COMMIT_REF_NAME}
